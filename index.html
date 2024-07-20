@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Grid with Bootstrap Cards and Modal</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  <h2 class="my-4 text-center">Product Grid</h2>
+  <div class="row" id="product-grid">
+    <!-- Bootstrap cards will be dynamically added here -->
+  </div>
+</div>
+
+<!-- Bootstrap Modal for product details -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-body-content">
+          <!-- Product details will be dynamically added here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Script for generating cards -->
+<script>
+  // Sample data (replace with your actual data)
+  const products = [
+    { id: 1, name: "Pizza", description: "Pizza, dish of Italian origin consisting of a flattened disk of bread dough topped with some combination of olive oil, oregano, tomato, olives, mozzarella or other cheese, and many other ingredients, baked quickly—usually, in a commercial setting, using a wood-fired oven heated to a very high temperature—and served hot." },
+    { id: 2, name: "Burger", description: "A hamburger, or simply a burger, is a dish consisting of fillings—usually a patty of ground meat, typically beef—placed inside a sliced bun or bread roll. The patties are often served with cheese, lettuce, tomato, onion, pickles, bacon or chilis with condiments such as ketchup, mustard, mayonnaise, relish or a special sauce, often a variation of Thousand Island dressing and are frequently placed on sesame seed buns. A hamburger patty topped with cheese is called a cheeseburger" },
+    { id: 3, name: "cold coco", description: "Who doesn’t like chocolate? Specially when you can sip on it! Thick chocolate shakes are tasty but finishing a whole cup of it, sounds like a task as they are so heavy. But what if I told you that I have come up with a recipe which is amazingly tasty and super chocolaty. You can sip a whole glass without feeling heavy and it’s so refreshing. This quick drink is ready in no time which few ingredients and it’s more addictive than coffee. of Product 3" }
+    // Add more products as needed
+  ];
+
+  // Function to generate cards and modal content
+  function generateProductCards() {
+    const gridContainer = document.getElementById('product-grid');
+
+    products.forEach(product => {
+      // Create card element
+      const card = document.createElement('div');
+      card.classList.add('col-md-4', 'mb-4');
+
+      // Bootstrap card
+      card.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text">${product.description}</p>
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#productModal" onclick="showProductDetails(${product.id})">View Details</a>
+          </div>
+        </div>
+      `;
+
+      // Append card to grid container
+      gridContainer.appendChild(card);
+    });
+  }
+
+  // Function to show product details in modal
+  function showProductDetails(productId) {
+    const product = products.find(p => p.id === productId);
+
+    // Update modal content
+    const modalBody = document.getElementById('modal-body-content');
+    modalBody.innerHTML = `
+      <h5>${product.name}</h5>
+      <p>${product.description}</p>
+    `;
+  }
+
+  // Generate initial product cards on page load
+  document.addEventListener('DOMContentLoaded', generateProductCards);
+</script>
+
+</body>
+</html>
